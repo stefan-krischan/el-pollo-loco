@@ -1,0 +1,4 @@
+# blocks all bots from accessing the website
+User-agent: *
+Disallow: /
+Sitemap: https://stefan-krischan.developerakademie.net/.../sitemap.xml

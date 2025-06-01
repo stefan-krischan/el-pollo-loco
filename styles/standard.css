@@ -1,0 +1,53 @@
+html {
+    scroll-behavior: smooth;
+    font-size: 10px;
+}
+
+body {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+}
+
+table {
+    width: 100%;
+}
+
+table, td, th {
+    border-collapse: collapse;
+}
+
+input, button, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    border: none;
+}
+
+button {
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    background-color: transparent;
+    text-align: center;
+    font-weight: 700;
+    user-select: none;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.d-none {
+    display: none;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-center {
+    text-align: center;
+}
