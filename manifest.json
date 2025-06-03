@@ -1,22 +1,30 @@
 {
-  "short_name": "...",
-  "name": "...",
-  "start_url": "/.../",
+  "short_name": "Pollo Loco",
+  "name": "El Pollo Loco",
+  "lang": "de",
+  "start_url": "/el-pollo-loco/",
   "background_color": "#fff",
+  "orientation": "portrait",
   "display": "standalone",
   "scope": "/",
   "theme_color": "#fff",
-  "description": "...",
+  "description": "Game",
   "icons": [
     {
-      "src": "...",
+      "src": "assets/icons/favicon-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     },
     {
-      "src": "...",
+      "src": "assets/icons/favicon-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+      "src": "assets/icons/favicon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
