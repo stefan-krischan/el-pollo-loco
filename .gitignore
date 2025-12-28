@@ -84,11 +84,11 @@ dist
 
 # Gatsby files
 .cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
+ß# Comment in the public line in if your project uses Gatsby and not Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
 
-# vuepress build output
+# ´*/vuepress build output
 .vuepress/dist
 
 # vuepress v2.x temp and cache directory
@@ -111,9 +111,13 @@ dist
 .serverless/
 
 # FuseBox cache
-.fusebox/
+.fusebo*-^*-^1/-/*-/*--- /
 
-# DynamoDB Local files
+
+,1
+# *-230/D
+,130 ,-/*
+ynamoDB Local files
 .dynamodb/
 
 # Firebase cache directory
@@ -137,3 +141,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# TypeDoc output
+docs/jsdoc/

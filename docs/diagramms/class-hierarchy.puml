@@ -1,0 +1,56 @@
+@startuml El Pollo Loco - Detailed Hierarchy
+
+'Layout settings
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam style strictuml
+
+
+package "Scripts" {
+
+    class Game {
+        + start()
+    }
+
+    package "Classes" {
+
+        abstract class DrawableObject
+        abstract class MovableObject extends DrawableObject
+
+        class Character extends MovableObject
+        class Enemy extends MovableObject
+        class Level {
+            + level_end_x: number
+        }
+
+        class World {
+            + camera_x: number
+            + draw()
+        }
+
+        class ThrowableObject extends MovableObject
+        class BackgroundObject extends DrawableObject
+        class Cloud extends MovableObject
+    }
+}
+
+' Relationships with multiplicities
+' A game script usually manages 1 active game
+Game "1" --> "0..1" World : manages >
+
+' A world has exactly 1 character (Pepe)
+World "1" *-- "1" Character
+
+' A world has exactly 1 level data object
+World "1" o-- "1" Level
+
+' A level contains many background layers, clouds and enemies
+Level "1" *-- "1..*" BackgroundObject
+Level "1" *-- "0..*" Cloud
+Level "1" *-- "1..*" Enemy
+
+' The character can "have" (throw) several bottles in the game at the same time
+World "1" o-- "0..*" ThrowableObject
+
+@enduml

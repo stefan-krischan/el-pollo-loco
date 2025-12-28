@@ -1,0 +1,32 @@
+{
+  "short_name": "EPL",
+  "name": "El Pollo Loco",
+  "lang": "en",
+  "start_url": "/el-pollo-loco/index.html",
+  "background_color": "#f2d192",
+  "orientation": "landscape",
+  "display": "standalone",
+  "scope": "/el-pollo-loco/",
+  "theme_color": "#f2d192",
+  "description": "2D Jump 'n' Run Web Game Developed with HTML, CSS, and vanilla JavaScript. Focused on agile management (Scrum)",
+  "icons": [
+    {
+      "src": "assets/icons/favicons/favicon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/favicons/favicon.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/favicons/favicon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

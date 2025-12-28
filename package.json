@@ -1,0 +1,29 @@
+{
+  "name": "el-pollo-loco",
+  "version": "1.0.0",
+  "description": "2D Jump 'n' Run Web Game – Developed with HTML, CSS, and vanilla JavaScript. Focused on agile management (Scrum).",
+  "keywords": [
+    "2d",
+    "game",
+    "javascript",
+    "pwa"
+  ],
+  "homepage": "https://github.com/stefan-krischan/el-pollo-loco#readme",
+  "bugs": {
+    "url": "https://github.com/stefan-krischan/el-pollo-loco/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefan-krischan/el-pollo-loco.git"
+  },
+  "license": "MIT",
+  "author": "Stefan Krischan",
+  "main": "scripts/script.js",
+  "scripts": {
+    "docs": "jsdoc -c jsdoc.conf.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
+  }
+}

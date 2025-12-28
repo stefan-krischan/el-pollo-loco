@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    // Specifies that this is a JavaScript project
+    "allowJs": true,
+    // The standard to be compiled (or checked) (ES6 corresponds to ES2015)
+    "target": "ES6",
+    // The module system used (for import/export)
+    "module": "ESNext",
+    // Activates the use of ES6 import/export in the IDE
+    "moduleResolution": "node",
+    // Activates the recognition of JSDoc comments for type checking and auto-completion
+    "checkJs": true,
+    // Base directory for module resolution (important for clean paths)
+    "baseUrl": ".",
+    // If 'true', this forces the correct capitalization of file names
+    "forceConsistentCasingInFileNames": true
+  },
+  // Specifies which files are to be ignored (similar to .gitignore)
+  "exclude": ["node_modules", "docs"],
+  // Specifies which files are to be included in the project
+  "include": ["scripts/**/*", "index.html"]
+}
