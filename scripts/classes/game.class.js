@@ -1,45 +1,48 @@
 /**
+ * @file game.class.js
+ * @description The main class for the game. It encapsulates the entire state.
+ * @author Stefan Krischan
+ * @version 1.0.0
+ */
+
+/**
  * The main class for the game.
  * It encapsulates the entire state (positions, animations, context).
  */
 class Game {
+  /** The 2D drawing context of the canvas.
+   * @type {CanvasRenderingContext2D | null}
+   */
+  ctx;
+
+  /** The ID of the current animation frame.
+   * @type {number | null}
+   */
+  rafId = null;
+
+  /** Indicates whether the world is currently active.
+   * @type {boolean}
+   */
+  isRunning = false;
+
   /**
    * Creates a new world instance and defines the start state.
    * @param {string} canvasId - The HTML ID of the canvas element.
    */
   constructor(canvasId) {
-    /**
-     * The 2D drawing context of the canvas.
-     * Is null if the canvas element was not found.
-     * @type {CanvasRenderingContext2D | null}
-     */
     this.ctx = this.getCanvasContext(canvasId);
-
-    /**
-   * The ID of the current animation (for cancelAnimationFrame).
-   * Is zero if no animation is running.
-   * @type {number | null}
-   */
-    this.rafId = null;
-
-    /**
-     * Indicates whether the world is currently active.
-     * @type {boolean}
-     */
-    this.isRunning = false;
   }
 
   /**
    * Helper method: Searches for the canvas in the DOM and returns the 2D context.
    * @param {string} id - The ID of the element to be searched for.
-   * @returns {CanvasRenderingContext2D | null} The context or zero forFehler.
+   * @returns {CanvasRenderingContext2D | null} The context or null for error.
    */
   getCanvasContext(id) {
     const element = document.getElementById(id);
     if (element instanceof HTMLCanvasElement) {
       return element.getContext("2d");
     }
-
     console.error("Canvas not found!");
     return null;
   }
@@ -50,7 +53,7 @@ class Game {
    * @returns {void}
    */
   start() {
-    if (!this.ctx) return; // Sicherheits-Check
+    if (!this.ctx) return;
     this.isRunning = true;
     this.animate();
   }
