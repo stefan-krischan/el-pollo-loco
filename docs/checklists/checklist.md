@@ -108,9 +108,9 @@ Bitte erfülle alle Punkte auf dieser Liste, bevor du das Projekt einreichst. So
 - [ ] Mute Button stoppt alle Sounds? Sind die Sounds zu laut?  
 - [ ] Besteht die Möglichkeit zum Neustart nach GameOver?  
 - [ ] Restart soll nicht über Reload der Seite gelöst sein.  
-- [ ] mobile Buttons funktionieren nicht auf dem Tablet  
-- [ ] keine echten Daten im Impressum
-
+- [ ] mobile  
+- [ ]  Buttons funktionieren nicht auf dem Tablet  
+- [ ] keine echten Daten im Impressum  
       
 
 2. ## **Funktionalitäten \- User Stories (WIP)** {#funktionalitäten---user-stories-(wip)}
@@ -175,6 +175,7 @@ Als Benutzer möchte ich das Spiel auch auf Mobilgeräten spielen.
 
 - [ ] Es gibt die Möglichkeit, im Querformat auf einem Mobilgerät zu spielen.  
 - [ ] Es gibt nur in der Mobilansicht extra Buttons, um auf dem Mobilgerät (Smartphone  / Tablet) zu spielen.  
+- [ ] Das Kontextmenü (Rechtsklick / Touch-and-Hold) ist bei den Mobile-Touch-Buttons deaktiviert.  
 - [ ] Wenn das Gerät hochkant gehalten wird, sollte eine Meldung anzeigen, dass das Gerät gedreht werden muss, um spielen zu können.
 
 ### **User Story 2** {#user-story-2}
