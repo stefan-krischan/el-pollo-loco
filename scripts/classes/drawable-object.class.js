@@ -39,6 +39,14 @@ class DrawableObject {
    */
   img;
 
+  currentImage = 0;
+
+  /**
+   * saves all images in an object with the path as key and the image as value.
+   * @type {Object<string, HTMLImageElement>}
+   */
+  imageCache = {};
+
   /**
    * Loads an image from the given path.
    * @param {string} path - The path to the image file.
@@ -46,6 +54,18 @@ class DrawableObject {
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
+  }
+
+  /**
+   * Loads a list of images and saves them in the ImageCache.
+   * @param {Array<string>} arr - An array with image paths (URLs) that are to be loaded.
+   */
+  loadImages(arr = []) {
+    arr.forEach((path) => {
+      const img = new Image();
+      img.src = path;
+      this.imageCache[path] = img;
+    });
   }
 
   /**
