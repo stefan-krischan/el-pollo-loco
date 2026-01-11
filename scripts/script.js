@@ -9,7 +9,7 @@
 /**
  * The active instance of the game.
  * This variable saves the complete game object.
- * @type {Game | null}
+ * @type {World | null}
  */
 let currentGame = null;
 
@@ -18,7 +18,7 @@ let currentGame = null;
  * Creates a new instance of the World class and starts the loop.
  */
 function initGame() {
-  currentGame = new Game("canvas");
+  currentGame = new World("canvas");
   currentGame.start();
 }
 

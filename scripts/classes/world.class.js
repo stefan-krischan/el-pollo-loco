@@ -9,7 +9,7 @@
  * The main class for the game.
  * It encapsulates the entire state (positions, animations, context).
  */
-class Game {
+class World {
   /** The 2D drawing context of the canvas.
    * @type {CanvasRenderingContext2D | null}
    */
