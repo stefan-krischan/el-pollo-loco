@@ -32,7 +32,7 @@ class DrawableObject {
   /** The scale factor of the object (1 = 100%).
    * @type {number}
    */
-  percentage = 1;
+  scale = 1;
 
   /** The HTML image element used for rendering.
    * @type {HTMLImageElement}
@@ -73,8 +73,8 @@ class DrawableObject {
    * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
    */
   draw(ctx) {
-    let scaledWidth = this.width * this.percentage;
-    let scaledHeight = this.height * this.percentage;
+    let scaledWidth = this.width * this.scale;
+    let scaledHeight = this.height * this.scale;
     ctx.drawImage(this.img, this.x, this.y, scaledWidth, scaledHeight);
   }
 }
