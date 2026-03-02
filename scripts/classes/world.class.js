@@ -25,6 +25,8 @@ class World {
    */
   isRunning = false;
 
+  character = new Character();
+
   /**
    * Creates a new world instance and defines the start state.
    * @param {string} canvasId - The HTML ID of the canvas element.
@@ -78,6 +80,7 @@ class World {
   animate() {
     if (!this.isRunning) return;
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width * this.character.scale, this.character.height * this.character.scale);
     this.rafId = requestAnimationFrame(() => this.animate());
   }
 }
