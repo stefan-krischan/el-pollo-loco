@@ -10,22 +10,22 @@
  * It encapsulates the entire state (positions, animations, context).
  */
 class World {
-  /** The 2D drawing context of the canvas.
-   * @type {CanvasRenderingContext2D | null}
-   */
+  /** @type {CanvasRenderingContext2D | null} The 2D drawing context of the canvas.*/
   ctx;
 
-  /** The ID of the current animation frame.
-   * @type {number | null}
-   */
+  /**  @type {number | null} The ID of the current animation frame. */
   rafId = null;
 
-  /** Indicates whether the world is currently active.
-   * @type {boolean}
-   */
+  /** @type {boolean}  Indicates whether the world is currently active. */
   isRunning = false;
 
+  /** @type {Character} The main character of the game */
   character = new Character();
+
+  /** @type {Chicken[]} The Array whether opponents in the game*/
+  enemies = [
+    new Chicken(),
+  ];
 
   /**
    * Creates a new world instance and defines the start state.
@@ -81,6 +81,9 @@ class World {
     if (!this.isRunning) return;
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width * this.character.scale, this.character.height * this.character.scale);
+    this.enemies.forEach((enemy => {
+      this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width * enemy.scale, enemy.height * enemy.scale);
+    }));
     this.rafId = requestAnimationFrame(() => this.animate());
   }
 }
