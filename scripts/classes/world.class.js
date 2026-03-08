@@ -24,7 +24,10 @@ class World {
 
   /** @type {Chicken[]} The Array whether opponents in the game*/
   enemies = [
-    new Chicken(),
+    new Chicken(0),
+    new Chicken(1),
+    new Chicken(2),
+    new Chicken(3),
   ];
 
   /**
