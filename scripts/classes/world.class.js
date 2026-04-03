@@ -30,13 +30,22 @@ class World {
     new Chicken(3),
   ];
 
+  /** @type {Cloud[]} The array of clouds in the game */
+  clouds = [
+    new Cloud(),
+    new Cloud()
+  ];
+
   /**
    * Creates a new world instance and defines the start state.
    * @param {string} canvasId - The HTML ID of the canvas element.
    */
   constructor(canvasId) {
     this.ctx = this.getCanvasContext(canvasId);
+    this.setCloudChainPositions(0, 0);
   }
+
+
 
   /**
    * Helper method: Searches for the canvas in the DOM and returns the 2D context.
@@ -84,9 +93,27 @@ class World {
     if (!this.isRunning) return;
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width * this.character.scale, this.character.height * this.character.scale);
-    this.enemies.forEach((enemy => {
+    this.clouds.forEach((cloud) => {
+      this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
+    });
+    this.enemies.forEach((enemy) => {
       this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width * enemy.scale, enemy.height * enemy.scale);
-    }));
+    });
     this.rafId = requestAnimationFrame(() => this.animate());
+  }
+
+  /**
+   * sets the positions of the clouds in a chain.
+   * @param {number} gap the gap between clouds
+   * @param {number} startX the starting position of the first cloud
+   */
+  setCloudChainPositions(gap = 0, startX = 0) {
+    for (let i = 0; i < this.clouds.length; i++) {
+      if (i === 0) this.clouds[i].x = startX;
+      else {
+        const previousCloud = this.clouds[i - 1];
+        this.clouds[i].x = previousCloud.x + previousCloud.width + gap;
+      }
+    }
   }
 }
