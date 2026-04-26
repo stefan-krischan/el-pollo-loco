@@ -9,10 +9,10 @@ class Chicken extends MovableObject {
   y = 394.95;
 
   /** @type {number} The width of the chicken */
-  width = 248;
+  width = 248 * this.scale;
 
   /** @type {number} The height of the chicken  */
-  height = 243;
+  height = 243 * this.scale;
 
   /**
    * creates the chicken object

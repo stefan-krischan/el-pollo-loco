@@ -100,16 +100,10 @@ class World {
   animate() {
     if (!this.isRunning) return;
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-    this.backgrounds.forEach(background => {
-      this.ctx.drawImage(background.img, background.x, background.y, background.width, background.height);
-    });
-    this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width * this.character.scale, this.character.height * this.character.scale);
-    this.clouds.forEach(cloud => {
-      this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
-    });
-    this.enemies.forEach(enemy => {
-      this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width * enemy.scale, enemy.height * enemy.scale);
-    });
+    this.backgrounds.forEach(background => this.addToMap(background));
+    this.addToMap(this.character);
+    this.clouds.forEach(cloud => this.addToMap(cloud));
+    this.enemies.forEach(enemy => this.addToMap(enemy));
     this.rafId = requestAnimationFrame(() => this.animate());
   }
 
@@ -126,5 +120,9 @@ class World {
         this.clouds[i].x = previousCloud.x + previousCloud.width + gap;
       }
     }
+  }
+
+  addToMap(drawableObject) {
+    this.ctx.drawImage(drawableObject.img, drawableObject.x, drawableObject.y, drawableObject.width, drawableObject.height);
   }
 }

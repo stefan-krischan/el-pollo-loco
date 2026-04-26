@@ -4,8 +4,8 @@
  */
 class Character extends MovableObject {
   scale = 0.3;
-  height = 1200;
-  width = 610;
+  height = 1200 * this.scale;
+  width = 610 * this.scale;
   x = 0;
   y = 120;
   constructor() {
