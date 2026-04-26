@@ -36,6 +36,14 @@ class World {
     new Cloud()
   ];
 
+  /** @type {Background[]} The array of backgrounds in the game */
+  backgrounds = [
+    new Background("assets/images/backgrounds/air/air.png", 0),
+    new Background("assets/images/backgrounds/layers/3/1.png"),
+    new Background("assets/images/backgrounds/layers/2/1.png"),
+    new Background("assets/images/backgrounds/layers/1/1.png"),
+  ];
+
   /**
    * Creates a new world instance and defines the start state.
    * @param {string} canvasId - The HTML ID of the canvas element.
@@ -92,11 +100,14 @@ class World {
   animate() {
     if (!this.isRunning) return;
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    this.backgrounds.forEach(background => {
+      this.ctx.drawImage(background.img, background.x, background.y, background.width, background.height);
+    });
     this.ctx.drawImage(this.character.img, this.character.x, this.character.y, this.character.width * this.character.scale, this.character.height * this.character.scale);
-    this.clouds.forEach((cloud) => {
+    this.clouds.forEach(cloud => {
       this.ctx.drawImage(cloud.img, cloud.x, cloud.y, cloud.width, cloud.height);
     });
-    this.enemies.forEach((enemy) => {
+    this.enemies.forEach(enemy => {
       this.ctx.drawImage(enemy.img, enemy.x, enemy.y, enemy.width * enemy.scale, enemy.height * enemy.scale);
     });
     this.rafId = requestAnimationFrame(() => this.animate());
