@@ -6,7 +6,7 @@ class Chicken extends MovableObject {
   scale = 0.35;
 
   /** @type {number} The Y position of the chicken */
-  y = 394.95;
+  y = 350;
 
   /** @type {number} The width of the chicken */
   width = 248 * this.scale;
