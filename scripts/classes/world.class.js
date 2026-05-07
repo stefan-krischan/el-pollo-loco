@@ -32,8 +32,8 @@ class World {
 
   /** @type {Cloud[]} The array of clouds in the game */
   clouds = [
-    new Cloud(),
-    new Cloud()
+    new Cloud(300),
+    new Cloud(880)
   ];
 
   /** @type {Background[]} The array of backgrounds in the game */
@@ -50,7 +50,6 @@ class World {
    */
   constructor(canvasId) {
     this.ctx = this.getCanvasContext(canvasId);
-    this.setCloudChainPositions(0, 0);
   }
 
 
@@ -102,24 +101,12 @@ class World {
     this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     this.backgrounds.forEach(background => this.addToMap(background));
     this.addToMap(this.character);
-    this.clouds.forEach(cloud => this.addToMap(cloud));
+    this.clouds.forEach(cloud => {
+      cloud.update();
+      this.addToMap(cloud);
+    });
     this.enemies.forEach(enemy => this.addToMap(enemy));
     this.rafId = requestAnimationFrame(() => this.animate());
-  }
-
-  /**
-   * sets the positions of the clouds in a chain.
-   * @param {number} gap the gap between clouds
-   * @param {number} startX the starting position of the first cloud
-   */
-  setCloudChainPositions(gap = 0, startX = 0) {
-    for (let i = 0; i < this.clouds.length; i++) {
-      if (i === 0) this.clouds[i].x = startX;
-      else {
-        const previousCloud = this.clouds[i - 1];
-        this.clouds[i].x = previousCloud.x + previousCloud.width + gap;
-      }
-    }
   }
 
   addToMap(drawableObject) {
