@@ -1,17 +1,37 @@
 {
   "plugins": ["plugins/markdown"],
-  "templates": {
-    "cleverLinks": true,
-    "monospaceLinks": true
-  },
   "source": {
     "include": ["scripts"],
-    "includePattern": ".+\\.js(doc|x)?$",
+    "includePattern": ".+\\.js",
     "exclude": ["node_modules"]
   },
   "opts": {
     "destination": "docs/jsdoc",
+    "template": "node_modules/clean-jsdoc-theme",
     "recurse": true,
-    "readme": "README.md"
+    "readme": "docs/jsdoc/README.md",
+    "theme_opts": {
+      "default_theme": "fallback-dark",
+      "homepageTitle": "Documentation",
+      "title": "Home",
+      "favicon": "/icons/favicons/favicon.png",
+      "includeFilesListInHomepage": false,
+      "static_dir": ["assets"],
+      "codepen": {
+        "enable_for": ["examples"],
+        "options": {}
+      },
+      "menu": [
+        {
+          "title": "Repository",
+          "link": "https://github.com",
+          "target": "_blank"
+        }
+      ]
+    }
+  },
+  "markdown": {
+    "hardwrap": false,
+    "idInHeadings": true
   }
 }

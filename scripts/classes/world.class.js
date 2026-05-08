@@ -94,11 +94,16 @@ class World {
   /**
    * The game loop (is called approx. 60 times per second).
    * This is where deleting, drawing and calculating takes place.
+   * @param {number} timestamp - Timestamp from requestAnimationFrame.
    * @returns {void}
    */
-  animate() {
+  animate(timestamp = performance.now()) {
     if (!this.isRunning) return;
-    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    const ctx = this.ctx;
+    if (!ctx) return;
+
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.character.updateAnimation(timestamp);
     this.backgrounds.forEach(background => this.addToMap(background));
     this.addToMap(this.character);
     this.clouds.forEach(cloud => {
@@ -106,10 +111,15 @@ class World {
       this.addToMap(cloud);
     });
     this.enemies.forEach(enemy => this.addToMap(enemy));
-    this.rafId = requestAnimationFrame(() => this.animate());
+    this.rafId = requestAnimationFrame((nextTimestamp) => this.animate(nextTimestamp));
   }
 
+  /**
+   * Draws a drawable object on the canvas.
+   * @param {DrawableObject} drawableObject - Object to draw.
+   */
   addToMap(drawableObject) {
+    if (!this.ctx) return;
     this.ctx.drawImage(drawableObject.img, drawableObject.x, drawableObject.y, drawableObject.width, drawableObject.height);
   }
 }
