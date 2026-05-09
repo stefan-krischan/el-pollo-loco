@@ -25,7 +25,7 @@ class Character extends MovableObject {
     "assets/images/character/idle/idle-7.png",
     "assets/images/character/idle/idle-8.png",
     "assets/images/character/idle/idle-9.png",
-    "assets/images/character/idle/idle-10.png"
+    "assets/images/character/idle/idle-10.png",
   ];
 
   imagePathsLongIdle = [

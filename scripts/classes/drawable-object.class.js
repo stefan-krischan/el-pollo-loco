@@ -1,6 +1,5 @@
 /**
  * @file drawable-object.class.js
- * @description Base class for all objects that can be rendered on the game canvas.
  * @author Stefan Krischan
  * @version 1.0.0
  */
@@ -14,8 +13,7 @@ class DrawableObject {
    */
   x = 120;
 
-  /** The vertical position on the canvas.
-   * @type {number}
+  /** @type {number}
    */
   y = 150;
 

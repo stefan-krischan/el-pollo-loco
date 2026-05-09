@@ -104,6 +104,8 @@ class World {
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     this.character.updateAnimation(timestamp);
+    this.enemies.forEach(enemy => enemy.updateAnimation(timestamp));
+    this.clouds.forEach(cloud => cloud.update());
     this.backgrounds.forEach(background => this.addToMap(background));
     this.addToMap(this.character);
     this.clouds.forEach(cloud => {

@@ -14,6 +14,17 @@ class Chicken extends MovableObject {
   /** @type {number} The height of the chicken  */
   height = 243 * this.scale;
 
+  animationState = "walk";
+  animationFrameIntervalMs = 120;
+  lastAnimationFrameTime = 0;
+
+  /** @type {string[]} Paths to the walk animation images */
+  imagePathsWalk = [
+    "assets/images/enemies/chicken/normal/walk/walk-1.png",
+    "assets/images/enemies/chicken/normal/walk/walk-2.png",
+    "assets/images/enemies/chicken/normal/walk/walk-3.png",
+  ];
+
   /**
    * creates the chicken object
    * @param {number} index The index of the chicken in the array
@@ -21,6 +32,7 @@ class Chicken extends MovableObject {
   constructor(index) {
     super();
     this.loadImage("assets/images/enemies/chicken/normal/walk/walk-1.png");
+    this.loadImages(this.imagePathsWalk);
     this.x = this.calculatePositionX(index);
   }
 
@@ -35,5 +47,38 @@ class Chicken extends MovableObject {
     let baseDistance = chickenWidth + 100;
     let variance = Math.random() * 90;
     return safeZoneOffset + (index * baseDistance) + variance;
+  }
+
+  /**
+   * Sets the current animation state.
+   * @param {"idle" | "long-idle"} state - The active animation state.
+   */
+  setAnimationState(state) {
+    if (this.animationState === state) return;
+    this.animationState = state;
+    this.currentImage = 0;
+  }
+
+  /**
+   * Sets the current animation state.
+   * @param {"idle" | "long-idle"} state - The active animation state.
+   */
+  setAnimationState(state) {
+    if (this.animationState === state) return;
+    this.animationState = state;
+    this.currentImage = 0;
+  }
+
+  /**
+   * Updates the character animation based on state and time.
+   * @param {number} timestamp - Timestamp from requestAnimationFrame.
+   */
+  updateAnimation(timestamp) {
+    if (timestamp - this.lastAnimationFrameTime < this.animationFrameIntervalMs) return;
+    this.lastAnimationFrameTime = timestamp;
+
+    if (this.animationState === "walk") {
+      this.playAnimation(this.imagePathsWalk);
+    }
   }
 }
