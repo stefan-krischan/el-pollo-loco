@@ -43,7 +43,7 @@ class Character extends MovableObject {
 
   constructor() {
     super();
-    this.loadImage("assets/images/character/idle/idle-1.png");
+    // this.loadImage("assets/images/character/idle/idle-1.png");
     this.loadImages(this.imagePathsIdle);
     this.loadImages(this.imagePathsLongIdle);
   }

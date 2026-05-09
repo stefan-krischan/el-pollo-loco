@@ -17,6 +17,7 @@ class Chicken extends MovableObject {
   animationState = "walk";
   animationFrameIntervalMs = 120;
   lastAnimationFrameTime = 0;
+  speedX = 0.5;
 
   /** @type {string[]} Paths to the walk animation images */
   imagePathsWalk = [
@@ -51,7 +52,7 @@ class Chicken extends MovableObject {
 
   /**
    * Sets the current animation state.
-   * @param {"idle" | "long-idle"} state - The active animation state.
+   * @param {"walk"} state - The active animation state.
    */
   setAnimationState(state) {
     if (this.animationState === state) return;
@@ -60,17 +61,22 @@ class Chicken extends MovableObject {
   }
 
   /**
-   * Sets the current animation state.
-   * @param {"idle" | "long-idle"} state - The active animation state.
+   * Moves the chicken to the left.
    */
-  setAnimationState(state) {
-    if (this.animationState === state) return;
-    this.animationState = state;
-    this.currentImage = 0;
+  update() {
+    this.moveLeft(this.speedX);
   }
 
   /**
-   * Updates the character animation based on state and time.
+   * Returns true when the chicken has fully left the canvas to the left.
+   * @returns {boolean}
+   */
+  isOutOfView() {
+    return this.x + this.width < 0;
+  }
+
+  /**
+   * Updates the chicken animation based on state and time.
    * @param {number} timestamp - Timestamp from requestAnimationFrame.
    */
   updateAnimation(timestamp) {
