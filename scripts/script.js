@@ -35,3 +35,22 @@ function replayGame() {
 
 // Start signal when loading the page
 window.addEventListener("load", initGame);
+
+window.addEventListener("keydown", (event) => {
+  if (!currentGame) return;
+
+  if (event.code === "ArrowLeft") currentGame.keyboard.left = true;
+  else if (event.code === "ArrowRight") currentGame.keyboard.right = true;
+  else if (event.code === "Space") currentGame.keyboard.space = true;
+  else if (event.code === "KeyD") currentGame.keyboard.d = true;
+});
+
+
+window.addEventListener("keyup", (event) => {
+  if (!currentGame) return;
+
+  if (event.code === "ArrowLeft") currentGame.keyboard.left = false;
+  else if (event.code === "ArrowRight") currentGame.keyboard.right = false;
+  else if (event.code === "Space") currentGame.keyboard.space = false;
+  else if (event.code === "KeyD") currentGame.keyboard.d = false;
+});

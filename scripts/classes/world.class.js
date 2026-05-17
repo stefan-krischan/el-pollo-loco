@@ -22,6 +22,9 @@ class World {
   /** @type {Character} The main character of the game */
   character = new Character();
 
+  /** @type {Keyboard} The keyboard input handler */
+  keyboard = new Keyboard();
+
   /** @type {Chicken[]} The Array whether opponents in the game*/
   enemies = [
     new Chicken(0),
@@ -103,6 +106,7 @@ class World {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    this.character.updateMovement(timestamp);
     this.character.updateAnimation(timestamp);
     this.enemies.forEach(enemy => {
       enemy.update();
