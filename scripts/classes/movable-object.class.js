@@ -17,15 +17,9 @@ class MovableObject extends DrawableObject {
   speedX = 0.15;
 
   /**
-   * Whether the object is facing the other direction (left).
-   * @type {boolean}
-   * */
-  otherDirection = false;
-
-  /**
-   * Vertical speed of the object.
-   * @type {number}
-   */
+ * Vertical speed of the object.
+ * @type {number}
+ */
   speedY = 0;
 
   /**

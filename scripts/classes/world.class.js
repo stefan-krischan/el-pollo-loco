@@ -130,6 +130,15 @@ class World {
    */
   addToMap(drawableObject) {
     if (!this.ctx) return;
-    this.ctx.drawImage(drawableObject.img, drawableObject.x, drawableObject.y, drawableObject.width, drawableObject.height);
+    if (drawableObject.otherDirection) {
+      this.ctx.save();
+      this.ctx.translate(drawableObject.x + drawableObject.width, drawableObject.y);
+      this.ctx.scale(-1, 1);
+      this.ctx.drawImage(drawableObject.img, 0, 0, drawableObject.width, drawableObject.height);
+      this.ctx.restore();
+    } else {
+      this.ctx.drawImage(drawableObject.img, drawableObject.x, drawableObject.y, drawableObject.width, drawableObject.height);
+    }
   }
+
 }

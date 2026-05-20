@@ -111,10 +111,12 @@ class Character extends MovableObject {
     if (!currentGame) return;
     if (currentGame.keyboard.left) {
       this.moveLeft();
+      this.otherDirection = true;
       this.markLastMovement(timestamp);
       this.setAnimationState("walk");
     } else if (currentGame.keyboard.right) {
       this.moveRight();
+      this.otherDirection = false;
       this.markLastMovement(timestamp);
       this.setAnimationState("walk");
     } else {
@@ -123,4 +125,6 @@ class Character extends MovableObject {
       }
     }
   }
+
+
 }

@@ -45,6 +45,11 @@ class DrawableObject {
    */
   imageCache = {};
 
+  /** Whether the object is facing the other direction (left).
+   * @type {boolean}
+   */
+  otherDirection = false;
+
   /**
    * Loads an image from the given path.
    * @param {string} path - The path to the image file.
