@@ -34,9 +34,6 @@ class Cloud extends MovableObject {
     "assets/images/backgrounds/clouds/cloud-2.png"
   ];
 
-  /** @type {boolean} Indicates if the cloud is out of the left view. */
-  isOUtOfLeftView = this.x + this.width < 0;
-
   constructor(x = 0) {
     super();
     this.x = x;
@@ -47,8 +44,8 @@ class Cloud extends MovableObject {
   moveLeft() { this.x -= this.speedX; }
 
   update() {
+    if (this.x + this.width < 0) this.x = 720;
     this.moveLeft();
-    if (this.isOUtOfLeftView) this.x = 720;
   }
 
   /**
