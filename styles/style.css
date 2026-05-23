@@ -19,3 +19,15 @@ body {
 canvas {
   background-color: #000;
 }
+
+@media (orientation: landscape) and (max-height: 360px) {
+  canvas {
+    height: 100dvh;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 390px) {
+  canvas {
+    width: 100vw;
+  }
+}
