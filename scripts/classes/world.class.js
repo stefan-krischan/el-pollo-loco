@@ -140,5 +140,4 @@ class World {
       this.ctx.drawImage(drawableObject.img, drawableObject.x, drawableObject.y, drawableObject.width, drawableObject.height);
     }
   }
-
 }
