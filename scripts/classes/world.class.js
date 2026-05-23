@@ -13,6 +13,9 @@ class World {
   /** @type {CanvasRenderingContext2D | null} The 2D drawing context of the canvas.*/
   ctx;
 
+  /** @type {number} The X position of the camera. */
+  cameraX = 0;
+
   /**  @type {number | null} The ID of the current animation frame. */
   rafId = null;
 
@@ -53,6 +56,7 @@ class World {
    */
   constructor(canvasId) {
     this.ctx = this.getCanvasContext(canvasId);
+    this.setWorld();
   }
 
 
@@ -101,26 +105,35 @@ class World {
    * @returns {void}
    */
   animate(timestamp = performance.now()) {
-    if (!this.isRunning) return;
+    if (!this.isRunning || !this.ctx) return;
     const ctx = this.ctx;
-    if (!ctx) return;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
     this.character.updateMovement(timestamp);
     this.character.updateAnimation(timestamp);
-    this.enemies.forEach(enemy => {
+
+    this.enemies.forEach((enemy) => {
       enemy.update();
       enemy.updateAnimation(timestamp);
     });
-    this.enemies = this.enemies.filter(enemy => !enemy.isOutOfView());
-    this.clouds.forEach(cloud => cloud.update());
-    this.backgrounds.forEach(background => this.addToMap(background));
+    this.enemies = this.enemies.filter((enemy) => !enemy.isOutOfView());
+
+    this.clouds.forEach((cloud) => cloud.update());
+
+    // Kamera folgt dem Character (optional mit Offset)
+    this.cameraX = -this.character.x + 100;
+
+    ctx.save();
+    ctx.translate(this.cameraX, 0);
+
+    this.backgrounds.forEach((background) => this.addToMap(background));
+    this.clouds.forEach((cloud) => this.addToMap(cloud));
+    this.enemies.forEach((enemy) => this.addToMap(enemy));
     this.addToMap(this.character);
-    this.clouds.forEach(cloud => {
-      cloud.update();
-      this.addToMap(cloud);
-    });
-    this.enemies.forEach(enemy => this.addToMap(enemy));
+
+    ctx.restore();
+
     this.rafId = requestAnimationFrame((nextTimestamp) => this.animate(nextTimestamp));
   }
 
@@ -139,5 +152,9 @@ class World {
     } else {
       this.ctx.drawImage(drawableObject.img, drawableObject.x, drawableObject.y, drawableObject.width, drawableObject.height);
     }
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 }

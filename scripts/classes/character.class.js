@@ -10,13 +10,16 @@ class Character extends MovableObject {
   scale = 0.25;
   height = 1200 * this.scale;
   width = 610 * this.scale;
-  x = 0;
+  x = 100;
   y = 140;
   animationState = "idle";
   animationFrameIntervalMs = 120;
   lastAnimationFrameTime = 0;
   idleSinceTimestamp = 0;
   longIdleDelayMs = 3000;
+
+  /** @type {World|null} The world the character belongs to  */
+  world = null;
 
   /** @type {string[]} Paths to the idle animation images */
   imagePathsIdle = [
