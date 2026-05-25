@@ -14,9 +14,10 @@ class Background extends DrawableObject {
    * @param {string} imagePath - The path to the image file.
    * @param {number} y - The y-coordinate of the background.
    */
-  constructor(imagePath, y = 75) {
+  constructor(imagePath, x = 0, y = 75) {
     super();
     this.loadImage(imagePath);
+    this.x = x;
     this.y = y;
   }
 }

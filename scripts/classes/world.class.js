@@ -19,6 +19,9 @@ class World {
   /**  @type {number | null} The ID of the current animation frame. */
   rafId = null;
 
+  /** @type {Level | null} The current level of the game */
+  level = createLevel1();
+
   /** @type {boolean}  Indicates whether the world is currently active. */
   isRunning = false;
 
@@ -28,32 +31,10 @@ class World {
   /** @type {Keyboard} The keyboard input handler */
   keyboard = new Keyboard();
 
-  /** @type {Chicken[]} The Array whether opponents in the game*/
-  enemies = [
-    new Chicken(0),
-    new Chicken(1),
-    new Chicken(2),
-    new Chicken(3),
-  ];
-
-  /** @type {Cloud[]} The array of clouds in the game */
-  clouds = [
-    new Cloud(300),
-    new Cloud(880)
-  ];
-
-  /** @type {Background[]} The array of backgrounds in the game */
-  backgrounds = [
-    new Background("assets/images/backgrounds/air/air.png", 0),
-    new Background("assets/images/backgrounds/layers/3/1.png"),
-    new Background("assets/images/backgrounds/layers/2/1.png"),
-    new Background("assets/images/backgrounds/layers/1/1.png"),
-  ];
-
   /**
-   * Creates a new world instance and defines the start state.
-   * @param {string} canvasId - The HTML ID of the canvas element.
-   */
+ * Creates a new world instance and defines the start state.
+ * @param {string} canvasId - The HTML ID of the canvas element.
+ */
   constructor(canvasId) {
     this.ctx = this.getCanvasContext(canvasId);
     this.setWorld();
@@ -113,13 +94,13 @@ class World {
     this.character.updateMovement(timestamp);
     this.character.updateAnimation(timestamp);
 
-    this.enemies.forEach((enemy) => {
+    this.level.enemies.forEach((enemy) => {
       enemy.update();
       enemy.updateAnimation(timestamp);
     });
-    this.enemies = this.enemies.filter((enemy) => !enemy.isOutOfView());
+    this.level.enemies = this.level.enemies.filter((enemy) => !enemy.isOutOfView());
 
-    this.clouds.forEach((cloud) => cloud.update());
+    this.level.clouds.forEach((cloud) => cloud.update());
 
     // Kamera folgt dem Character (optional mit Offset)
     this.cameraX = -this.character.x + 100;
@@ -127,9 +108,9 @@ class World {
     ctx.save();
     ctx.translate(this.cameraX, 0);
 
-    this.backgrounds.forEach((background) => this.addToMap(background));
-    this.clouds.forEach((cloud) => this.addToMap(cloud));
-    this.enemies.forEach((enemy) => this.addToMap(enemy));
+    this.level.backgrounds.forEach((background) => this.addToMap(background));
+    this.level.clouds.forEach((cloud) => this.addToMap(cloud));
+    this.level.enemies.forEach((enemy) => this.addToMap(enemy));
     this.addToMap(this.character);
 
     ctx.restore();

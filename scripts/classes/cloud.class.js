@@ -44,7 +44,7 @@ class Cloud extends MovableObject {
   moveLeft() { this.x -= this.speedX; }
 
   update() {
-    if (this.x + this.width < 0) this.x = 720;
+    if (this.x + this.width < 0) this.x = 1440;
     this.moveLeft();
   }
 
