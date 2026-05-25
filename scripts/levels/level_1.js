@@ -31,5 +31,5 @@ function createLevel1() {
     new Chicken(3),
   ];
 
-  return new Level(backgrounds, clouds, enemies);
+  return new Level(backgrounds, clouds, enemies, 0, 1440);
 }

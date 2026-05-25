@@ -112,12 +112,12 @@ class Character extends MovableObject {
    */
   updateMovement(timestamp) {
     if (!currentGame) return;
-    if (currentGame.keyboard.left) {
+    if (currentGame.keyboard.left && this.x > this.world.level.startX) {
       this.moveLeft();
       this.otherDirection = true;
       this.markLastMovement(timestamp);
       this.setAnimationState("walk");
-    } else if (currentGame.keyboard.right) {
+    } else if (currentGame.keyboard.right && this.x + this.width < this.world.level.endX) {
       this.moveRight();
       this.otherDirection = false;
       this.markLastMovement(timestamp);

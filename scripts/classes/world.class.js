@@ -40,8 +40,6 @@ class World {
     this.setWorld();
   }
 
-
-
   /**
    * Helper method: Searches for the canvas in the DOM and returns the 2D context.
    * @param {string} id - The ID of the element to be searched for.
@@ -102,9 +100,7 @@ class World {
 
     this.level.clouds.forEach((cloud) => cloud.update());
 
-    // Kamera folgt dem Character (optional mit Offset)
-    this.cameraX = -this.character.x + 100;
-
+    this.clampCamera(this);
     ctx.save();
     ctx.translate(this.cameraX, 0);
 
@@ -137,5 +133,12 @@ class World {
 
   setWorld() {
     this.character.world = this;
+  }
+
+  clampCamera(tbis) {
+    const wantedCameraX = -this.character.x + 100;
+    const minCameraX = -(this.level.endX - tbis.ctx.canvas.width);
+    const maxCameraX = -this.level.startX;
+    this.cameraX = Math.max(minCameraX, Math.min(wantedCameraX, maxCameraX));
   }
 }
