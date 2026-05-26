@@ -4,7 +4,7 @@
  */
 class Character extends MovableObject {
   /** @type {number} The speed of the character */
-  speedX = 1.0;
+  speedX = 1.4;
 
   /** @type {number} The scale of the character */
   scale = 0.25;
@@ -18,6 +18,9 @@ class Character extends MovableObject {
 
   /** @type {number} The acceleration of the character */
   acceleration = 0.5;
+
+  /** @type {number} Initial upward speed for jumps */
+  jumpForce = -13;
 
   animationState = "idle";
   animationFrameIntervalMs = 120;
@@ -64,17 +67,30 @@ class Character extends MovableObject {
     "assets/images/character/walk/walk-6.png",
   ];
 
+  imagePathsJump = [
+    "assets/images/character/jump/jump-1.png",
+    "assets/images/character/jump/jump-2.png",
+    "assets/images/character/jump/jump-3.png",
+    "assets/images/character/jump/jump-4.png",
+    "assets/images/character/jump/jump-5.png",
+    "assets/images/character/jump/jump-6.png",
+    "assets/images/character/jump/jump-7.png",
+    "assets/images/character/jump/jump-8.png",
+    "assets/images/character/jump/jump-9.png",
+  ];
+
   constructor() {
     super();
     this.loadImage("assets/images/character/idle/idle-1.png");
     this.loadImages(this.imagePathsIdle);
     this.loadImages(this.imagePathsLongIdle);
     this.loadImages(this.imagePathsWalk);
+    this.loadImages(this.imagePathsJump);
   }
 
   /**
    * Sets the current animation state.
-    * @param {"idle" | "long-idle" | "walk"} state - The active animation state.
+    * @param {"idle" | "long-idle" | "walk" | "jump"} state - The active animation state.
    */
   setAnimationState(state) {
     if (this.animationState === state) return;
@@ -95,6 +111,7 @@ class Character extends MovableObject {
       else this.playAnimation(this.imagePathsIdle);
     } else if (this.animationState === "long-idle") this.playAnimation(this.imagePathsLongIdle);
     else if (this.animationState === "walk") this.playAnimation(this.imagePathsWalk);
+    else if (this.animationState === "jump") this.playAnimation(this.imagePathsJump);
   }
 
   /**
@@ -118,33 +135,56 @@ class Character extends MovableObject {
    * @param {number} timestamp - Current timestamp.
    */
   updateMovement(timestamp) {
-    if (!currentGame) return;
-    if (currentGame.keyboard.left && this.x > this.world.level.startX) {
+    const game = currentGame;
+    if (!game || !this.world || !this.world.level) return;
+
+    if (game.keyboard.space && !this.isAboveGround() && this.speedY === 0) {
+      this.jump(timestamp);
+    }
+
+    if (game.keyboard.left && this.x > this.world.level.startX) {
       this.moveLeft();
       this.otherDirection = true;
       this.markLastMovement(timestamp);
-      this.setAnimationState("walk");
-    } else if (currentGame.keyboard.right && this.x + this.width < this.world.level.endX) {
+    } else if (game.keyboard.right && this.x + this.width < this.world.level.endX) {
       this.moveRight();
       this.otherDirection = false;
       this.markLastMovement(timestamp);
-      this.setAnimationState("walk");
-    } else {
-      if (this.animationState === "walk") {
-        this.setAnimationState("idle");
-      }
     }
+
     this.applyGravity();
+
+    if (this.isAboveGround() || this.speedY < 0) this.setAnimationState("jump");
+    else if (game.keyboard.left || game.keyboard.right) this.setAnimationState("walk");
+    else if (this.animationState === "walk" || this.animationState === "jump") this.setAnimationState("idle");
+  }
+
+  /**
+   * Starts a jump with upward velocity.
+   * @param {number} timestamp - Current timestamp.
+   */
+  jump(timestamp) {
+    this.speedY = this.jumpForce;
+    this.markLastMovement(timestamp);
+    this.setAnimationState("jump");
   }
 
   applyGravity() {
-    if (this.isAboveGround()) {
-      this.y = Math.min(this.world.level.groundY, this.y + this.speedY);
+    if (!this.world || !this.world.level) return;
+    const groundY = this.world.level.groundY;
+
+    if (this.y < groundY || this.speedY !== 0) {
+      this.y = Math.min(groundY, this.y + this.speedY);
       this.speedY += this.acceleration;
-      if (this.y === this.world.level.groundY) this.speedY = 0;
+      if (this.y >= groundY && this.speedY > 0) {
+        this.y = groundY;
+        this.speedY = 0;
+      }
     }
   }
+
   isAboveGround() {
+    if (!this.world || !this.world.level) return false;
     return this.y < this.world.level.groundY;
   }
 }
