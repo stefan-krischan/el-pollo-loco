@@ -9,6 +9,8 @@ class Level {
   /** @type {Cloud[]} The array of clouds in the game */
   clouds = [];
 
+  groundY = 140;
+
   /** @type {Background[]} The array of backgrounds in the game */
   backgrounds = [];
 

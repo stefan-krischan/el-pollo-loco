@@ -11,7 +11,14 @@ class Character extends MovableObject {
   height = 1200 * this.scale;
   width = 610 * this.scale;
   x = 100;
-  y = 140;
+  y = 0;
+
+  /** @type {number} The vertical speed of the character */
+  speedY = 0;
+
+  /** @type {number} The acceleration of the character */
+  acceleration = 0.5;
+
   animationState = "idle";
   animationFrameIntervalMs = 120;
   lastAnimationFrameTime = 0;
@@ -127,7 +134,17 @@ class Character extends MovableObject {
         this.setAnimationState("idle");
       }
     }
+    this.applyGravity();
   }
 
-
+  applyGravity() {
+    if (this.isAboveGround()) {
+      this.y = Math.min(this.world.level.groundY, this.y + this.speedY);
+      this.speedY += this.acceleration;
+      if (this.y === this.world.level.groundY) this.speedY = 0;
+    }
+  }
+  isAboveGround() {
+    return this.y < this.world.level.groundY;
+  }
 }
