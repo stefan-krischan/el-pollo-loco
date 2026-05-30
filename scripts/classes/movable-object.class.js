@@ -68,4 +68,18 @@ class MovableObject extends DrawableObject {
       this.currentImage++;
     }
   }
+
+  /**
+   * Checks if this object is colliding with another movable object.
+   * @param {MovableObject} movableObject - The other movable object to check collision with.
+   * @returns {boolean} True if the objects are colliding, false otherwise.
+   */
+  isColliding(movableObject) {
+    return (
+      this.x < movableObject.x + movableObject.width &&
+      this.x + this.width > movableObject.x &&
+      this.y < movableObject.y + movableObject.height &&
+      this.y + this.height > movableObject.y
+    );
+  }
 }

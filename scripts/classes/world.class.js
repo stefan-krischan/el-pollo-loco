@@ -88,7 +88,6 @@ class World {
     const ctx = this.ctx;
 
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
     this.character.updateMovement(timestamp);
     this.character.updateAnimation(timestamp);
 
@@ -100,6 +99,8 @@ class World {
 
     this.level.clouds.forEach((cloud) => cloud.update());
 
+    this.checkCollisions();
+
     this.clampCamera(this);
     ctx.save();
     ctx.translate(this.cameraX, 0);
@@ -108,7 +109,8 @@ class World {
     this.level.clouds.forEach((cloud) => this.addToMap(cloud));
     this.level.enemies.forEach((enemy) => this.addToMap(enemy));
     this.addToMap(this.character);
-
+    this.drawBorder(ctx, this.character);
+    this.level.enemies.forEach((enemy) => this.drawBorder(ctx, enemy));
     ctx.restore();
 
     this.rafId = requestAnimationFrame((nextTimestamp) => this.animate(nextTimestamp));
@@ -140,5 +142,24 @@ class World {
     const minCameraX = -(this.level.endX - tbis.ctx.canvas.width);
     const maxCameraX = -this.level.startX;
     this.cameraX = Math.max(minCameraX, Math.min(wantedCameraX, maxCameraX));
+  }
+
+  /**
+   * Draws a border around the drawable object.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+   * @param {DrawableObject} drawableObject - The object to draw the border around.
+   */
+  drawBorder(ctx, drawableObject) {
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(drawableObject.x + (ctx.lineWidth / 2), drawableObject.y + (ctx.lineWidth / 2), drawableObject.width - ctx.lineWidth, drawableObject.height - ctx.lineWidth);
+  }
+
+  checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        console.log("Collision detected!");
+      }
+    });
   }
 }
