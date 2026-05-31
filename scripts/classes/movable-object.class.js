@@ -17,6 +17,13 @@ class MovableObject extends DrawableObject {
   speedX = 0.15;
 
   /**
+   * Energy of the object.
+   * @type {number}
+   */
+  energy = 100;
+
+
+  /**
  * Vertical speed of the object.
  * @type {number}
  */

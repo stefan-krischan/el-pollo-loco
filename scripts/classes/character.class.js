@@ -13,6 +13,22 @@ class Character extends MovableObject {
   x = 100;
   y = 0;
 
+  /** @type {number} The energy of the character */
+  energy = 100;
+
+  /** @type {number} Duration of hurt state in milliseconds */
+  hurtDurationMs = 400;
+
+  /** @type {number} End timestamp for the current hurt state */
+  hurtUntilTimestamp = 0;
+
+  /** @type {number} Minimum time between two hits in milliseconds */
+  hitCooldownMs = 500;
+
+  /** @type {number} Timestamp of the last accepted hit */
+  lastHitTimestamp = 0;
+
+
   /** @type {number} The vertical speed of the character */
   speedY = 0;
 
@@ -79,6 +95,21 @@ class Character extends MovableObject {
     "assets/images/character/jump/jump-9.png",
   ];
 
+  imagePathsHurt = [
+    "assets/images/character/hurt/hurt-1.png",
+    "assets/images/character/hurt/hurt-2.png",
+    "assets/images/character/hurt/hurt-3.png",
+  ];
+
+  imagePathsDead = [
+    "assets/images/character/dead/dead-1.png",
+    "assets/images/character/dead/dead-2.png",
+    "assets/images/character/dead/dead-3.png",
+    "assets/images/character/dead/dead-4.png",
+    "assets/images/character/dead/dead-5.png",
+    "assets/images/character/dead/dead-6.png",
+  ];
+
   constructor() {
     super();
     this.loadImage("assets/images/character/idle/idle-1.png");
@@ -86,11 +117,13 @@ class Character extends MovableObject {
     this.loadImages(this.imagePathsLongIdle);
     this.loadImages(this.imagePathsWalk);
     this.loadImages(this.imagePathsJump);
+    this.loadImages(this.imagePathsHurt);
+    this.loadImages(this.imagePathsDead);
   }
 
   /**
    * Sets the current animation state.
-    * @param {"idle" | "long-idle" | "walk" | "jump"} state - The active animation state.
+    * @param {"idle" | "long-idle" | "walk" | "jump" | "hurt" | "dead"} state - The active animation state.
    */
   setAnimationState(state) {
     if (this.animationState === state) return;
@@ -105,6 +138,18 @@ class Character extends MovableObject {
   updateAnimation(timestamp) {
     if (timestamp - this.lastAnimationFrameTime < this.animationFrameIntervalMs) return;
     this.lastAnimationFrameTime = timestamp;
+
+    if (this.isDead()) {
+      if (this.animationState !== "dead") this.setAnimationState("dead");
+      this.playAnimationOnce(this.imagePathsDead);
+      return;
+    }
+
+    if (this.isHurt(timestamp)) {
+      if (this.animationState !== "hurt") this.setAnimationState("hurt");
+      this.playAnimation(this.imagePathsHurt);
+      return;
+    }
 
     if (this.animationState === "idle") {
       if (timestamp - this.idleSinceTimestamp >= this.longIdleDelayMs) this.setAnimationState("long-idle");
@@ -122,10 +167,18 @@ class Character extends MovableObject {
     this.idleSinceTimestamp = timestamp;
   }
 
+  /**
+   * Moves the character to the left by subtracting speed from the x-coordinate.
+   * @returns {void}
+   */
   moveLeft() {
     this.x -= this.speedX;
   }
 
+  /**
+   * Moves the character to the right by adding speed to the x-coordinate.
+   * @returns {void}
+   */
   moveRight() {
     this.x += this.speedX;
   }
@@ -137,6 +190,11 @@ class Character extends MovableObject {
   updateMovement(timestamp) {
     const game = currentGame;
     if (!game || !this.world || !this.world.level) return;
+
+    if (this.isDead()) {
+      this.applyGravity();
+      return;
+    }
 
     if (game.keyboard.space && !this.isAboveGround() && this.speedY === 0) {
       this.jump(timestamp);
@@ -154,6 +212,8 @@ class Character extends MovableObject {
 
     this.applyGravity();
 
+    if (this.isHurt(timestamp)) return;
+
     if (this.isAboveGround() || this.speedY < 0) this.setAnimationState("jump");
     else if (game.keyboard.left || game.keyboard.right) this.setAnimationState("walk");
     else if (this.animationState === "walk" || this.animationState === "jump") this.setAnimationState("idle");
@@ -169,6 +229,10 @@ class Character extends MovableObject {
     this.setAnimationState("jump");
   }
 
+  /**
+   * Applies gravity to the character.
+   * @returns {void}
+   */
   applyGravity() {
     if (!this.world || !this.world.level) return;
     const groundY = this.world.level.groundY;
@@ -183,8 +247,41 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Checks if the character is above the ground.
+   * @returns {boolean} True if the character is above the ground, false otherwise.
+   */
   isAboveGround() {
     if (!this.world || !this.world.level) return false;
     return this.y < this.world.level.groundY;
+  }
+
+  /**
+   *
+   * @param {number} timestamp
+   * @returns {void}
+   */
+  hit(timestamp = performance.now()) {
+    if (this.isDead()) return;
+    if (timestamp - this.lastHitTimestamp < this.hitCooldownMs) return;
+
+    this.lastHitTimestamp = timestamp;
+    this.energy = Math.max(0, this.energy - 10);
+
+    if (this.isDead()) {
+      this.setAnimationState("dead");
+      return;
+    }
+
+    this.hurtUntilTimestamp = timestamp + this.hurtDurationMs;
+    this.setAnimationState("hurt");
+  }
+
+  isDead() {
+    return this.energy <= 0;
+  }
+
+  isHurt(timestamp = performance.now()) {
+    return !this.isDead() && timestamp < this.hurtUntilTimestamp;
   }
 }

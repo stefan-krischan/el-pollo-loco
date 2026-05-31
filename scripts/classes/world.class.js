@@ -158,7 +158,10 @@ class World {
   checkCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
+        this.character.hit();
         console.log("Collision detected!");
+        console.log(`characters energy is: ${this.character.energy}`);
+
       }
     });
   }
