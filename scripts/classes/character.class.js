@@ -63,8 +63,6 @@ class Character extends MovableObject {
   /** @type {number} Delay before switching to long idle animation in milliseconds */
   longIdleDelayMs = 3000;
 
-
-
   /** @type {string[]} Paths to the idle animation images */
   imagePathsIdle = [
     "assets/images/character/idle/idle-1.png",

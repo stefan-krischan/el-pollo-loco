@@ -16,6 +16,15 @@ class World {
   /** @type {number} The X position of the camera. */
   cameraX = 0;
 
+  /** @type {StatusBarHealth} The health bar of the character */
+  characterHealthBar = new StatusBarHealth();
+
+  /** @type {StatusBarCoins} The coins bar of the character */
+  characterCoinsBar = new StatusBarCoins();
+
+  /** @type {StatusBarBottles} The bottles bar of the character */
+  characterBottlesBar = new StatusBarBottles();
+
   /**  @type {number | null} The ID of the current animation frame. */
   rafId = null;
 
@@ -112,6 +121,13 @@ class World {
     this.drawBorder(ctx, this.character);
     this.level.enemies.forEach((enemy) => this.drawBorder(ctx, enemy));
     ctx.restore();
+    this.addToMap(this.characterHealthBar);
+    this.drawBorder(ctx, this.characterHealthBar);
+    this.addToMap(this.characterCoinsBar);
+    this.drawBorder(ctx, this.characterCoinsBar);
+    this.addToMap(this.characterBottlesBar);
+    this.drawBorder(ctx, this.characterBottlesBar);
+
 
     this.rafId = requestAnimationFrame((nextTimestamp) => this.animate(nextTimestamp));
   }
