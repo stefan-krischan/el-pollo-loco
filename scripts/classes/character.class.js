@@ -288,7 +288,9 @@ class Character extends MovableObject {
     if (timestamp - this.lastHitTimestamp < this.hitCoolDownMs) return;
 
     this.lastHitTimestamp = timestamp;
-    this.energy = Math.max(0, this.energy - 10);
+    this.energy = Math.max(0, this.energy - 20);
+    this.world.characterHealthBar.setPercentage(this.energy);
+
 
     if (this.isDead()) {
       this.setAnimationState("dead");
