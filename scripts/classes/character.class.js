@@ -3,14 +3,19 @@
  * @extends MovableObject
  */
 class Character extends MovableObject {
-  /** @type {number} The speed of the character */
-  speedX = 1.4;
-
   /** @type {number} The scale of the character */
   scale = 0.25;
-  height = 1200 * this.scale;
+
+  /** @type {number} The width of the character */
   width = 610 * this.scale;
+
+  /** @type {number} The height of the character */
+  height = 1200 * this.scale;
+
+  /** @type {number} The x-coordinate of the character */
   x = 100;
+
+  /** @type {number} The y-coordinate of the character */
   y = 0;
 
   /** @type {number} The energy of the character */
@@ -23,11 +28,13 @@ class Character extends MovableObject {
   hurtUntilTimestamp = 0;
 
   /** @type {number} Minimum time between two hits in milliseconds */
-  hitCooldownMs = 500;
+  hitCoolDownMs = 500;
 
   /** @type {number} Timestamp of the last accepted hit */
   lastHitTimestamp = 0;
 
+  /** @type {number} The speed of the character */
+  speedX = 1.4;
 
   /** @type {number} The vertical speed of the character */
   speedY = 0;
@@ -38,14 +45,25 @@ class Character extends MovableObject {
   /** @type {number} Initial upward speed for jumps */
   jumpForce = -13;
 
-  animationState = "idle";
-  animationFrameIntervalMs = 120;
-  lastAnimationFrameTime = 0;
-  idleSinceTimestamp = 0;
-  longIdleDelayMs = 3000;
-
   /** @type {World|null} The world the character belongs to  */
   world = null;
+
+  /** @type {string} The current animation state of the character */
+  animationState = "idle";
+
+  /** @type {number} Interval between animation frames in milliseconds */
+  animationFrameIntervalMs = 120;
+
+  /** @type {number} Timestamp of the last animation frame */
+  lastAnimationFrameTime = 0;
+
+  /** @type {number} Timestamp when the character started idling */
+  idleSinceTimestamp = 0;
+
+  /** @type {number} Delay before switching to long idle animation in milliseconds */
+  longIdleDelayMs = 3000;
+
+
 
   /** @type {string[]} Paths to the idle animation images */
   imagePathsIdle = [
@@ -61,6 +79,7 @@ class Character extends MovableObject {
     "assets/images/character/idle/idle-10.png",
   ];
 
+  /** @type {string[]} Paths to the long idle animation images */
   imagePathsLongIdle = [
     "assets/images/character/long-idle/long-idle-1.png",
     "assets/images/character/long-idle/long-idle-2.png",
@@ -74,6 +93,7 @@ class Character extends MovableObject {
     "assets/images/character/long-idle/long-idle-10.png",
   ];
 
+  /** @type {string[]} Paths to the walk animation images */
   imagePathsWalk = [
     "assets/images/character/walk/walk-1.png",
     "assets/images/character/walk/walk-2.png",
@@ -83,6 +103,7 @@ class Character extends MovableObject {
     "assets/images/character/walk/walk-6.png",
   ];
 
+  /** @type {string[]} Paths to the jump animation images */
   imagePathsJump = [
     "assets/images/character/jump/jump-1.png",
     "assets/images/character/jump/jump-2.png",
@@ -95,12 +116,14 @@ class Character extends MovableObject {
     "assets/images/character/jump/jump-9.png",
   ];
 
+  /** @type {string[]} Paths to the hurt animation images */
   imagePathsHurt = [
     "assets/images/character/hurt/hurt-1.png",
     "assets/images/character/hurt/hurt-2.png",
     "assets/images/character/hurt/hurt-3.png",
   ];
 
+  /** @type {string[]} Paths to the dead animation images */
   imagePathsDead = [
     "assets/images/character/dead/dead-1.png",
     "assets/images/character/dead/dead-2.png",
@@ -110,6 +133,7 @@ class Character extends MovableObject {
     "assets/images/character/dead/dead-6.png",
   ];
 
+  /** Creates a new Character object.*/
   constructor() {
     super();
     this.loadImage("assets/images/character/idle/idle-1.png");
@@ -263,7 +287,7 @@ class Character extends MovableObject {
    */
   hit(timestamp = performance.now()) {
     if (this.isDead()) return;
-    if (timestamp - this.lastHitTimestamp < this.hitCooldownMs) return;
+    if (timestamp - this.lastHitTimestamp < this.hitCoolDownMs) return;
 
     this.lastHitTimestamp = timestamp;
     this.energy = Math.max(0, this.energy - 10);
@@ -277,10 +301,19 @@ class Character extends MovableObject {
     this.setAnimationState("hurt");
   }
 
+  /**
+   * Checks if the character is dead.
+   * @returns {boolean} True if the character is dead, false otherwise.
+   */
   isDead() {
     return this.energy <= 0;
   }
 
+  /**
+   * Checks if the character is in the hurt state.
+   * @param {number} timestamp - Current timestamp.
+   * @returns {boolean} True if the character is in the hurt state, false otherwise.
+   */
   isHurt(timestamp = performance.now()) {
     return !this.isDead() && timestamp < this.hurtUntilTimestamp;
   }
